@@ -2,6 +2,7 @@ name: base
 channels:
   - conda-forge
   - defaults
+  - pytorch
 dependencies:
   - json5
   - jupyter_client
@@ -23,3 +24,7 @@ dependencies:
     - numpy
     - pymilvus==1.1.1
     - python-arango==7.2.0
+    - torch==1.11.0
+    - torchvision==0.12.0
+    - opencv-python
+    - opencv-contrib-python

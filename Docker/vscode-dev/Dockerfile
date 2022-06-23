@@ -1,5 +1,5 @@
-#FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
-FROM ubuntu:18.04
+FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
+#FROM ubuntu:18.04
 # Miniconda install copy-pasted from Miniconda's own Dockerfile reachable
 # at: https://github.com/ContinuumIO/docker-images/blob/master/miniconda3/debian/Dockerfile
 
