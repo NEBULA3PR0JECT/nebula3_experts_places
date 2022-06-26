@@ -1,9 +1,9 @@
-image: aharonamir/nebula3_experts_places
+image: aharonamir/nebula3_experts_places:fcbd846
 port: 8000
 env:
   - name: ARANGO_DB
     value: prodemo
-  - name:ARANGO_HOST
+  - name: ARANGO_HOST
     value: 172.83.9.249
   - name: AWS_ACCESS_KEY_ID
     value: "${AWS_ACCESS_KEY_ID}"
