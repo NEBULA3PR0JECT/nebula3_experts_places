@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  places:
+    image: aharonamir/nebula3_experts_places
+    ports:
+      - "48005:8000"
+    environment:
+      ARANGO_DB: "prodemo"
+      ARANGO_HOST: "172.83.9.249"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+#    runtime: nvidia

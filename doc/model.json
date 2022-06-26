@@ -1,0 +1,42 @@
+[{
+    "movie_id": "Movies/308421",
+    "scene_element": 1,
+    "scene": 1,
+    "expert": "PlacesExpert",
+    "bbox": null,
+    "label": "indoor",
+    "meta_label": {
+      "69": {},
+      "246": {},
+      "308": {}
+    },
+    "re_id": 0
+  },
+  {
+    "movie_id": "Movies/308421",
+    "scene_element": 1,
+    "scene": 1,
+    "expert": "PlacesExpert",
+    "bbox": null,
+    "label": "martial_arts_gym",
+    "meta_label": {
+      "69": {
+        "probability": 0.11282239854335785
+      }
+    },
+    "re_id": 0
+  },
+  {
+    "movie_id": "Movies/308421",
+    "scene_element": 1,
+    "scene": 1,
+    "expert": "PlacesExpert",
+    "bbox": null,
+    "label": "cloth",
+    "meta_label": {
+      "69": {},
+      "246": {},
+      "308": {}
+    },
+    "re_id": 0
+  }]

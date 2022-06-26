@@ -1,9 +1,9 @@
 # from typing import Optional
+from locale import currency
 from fastapi import FastAPI
 
 from typing import Optional
 import sys
-
 from numpy import number
 from PIL import Image
 from nebula3_experts.nebula3_pipeline.nebula3_database.movie_tokens import TokenEntry
@@ -115,7 +115,41 @@ class PlacesExpert(BaseExpert):
         return scene_places, error
 
     def transform_predictions(self, predictions, params: ExpertParam):
-        return predictions
+        results = list()
+        labels = dict()
+        for frame in predictions:
+            # get fist item (and only item)
+            dict_pairs = frame.items()
+            pairs_iterator = iter(dict_pairs)
+            first_pair = next(pairs_iterator)
+            cur_frame = first_pair[0]
+            io = first_pair[1]['io']
+            self.add_frame_to_label(labels, io, str(cur_frame))
+            categories = first_pair[1]['cat']
+            for category in categories:
+                for key, value in category.items():
+                    self.add_frame_to_label(labels, value, str(cur_frame), key)
+            attributes = first_pair[1]['attr']
+            for attribute in attributes:
+                self.add_frame_to_label(labels, attribute, str(cur_frame))
+        for label_key, label_value in labels.items():
+            tr = TokenRecord(params.movie_id,
+                    params.scene_element, params.scene_element, self.get_name(),
+                    None, label_key, label_value, 0)
+            results.append(tr)
+
+        return results
+
+    def add_frame_to_label(self, labels, label, cur_frame, probability = None):
+        if label not in labels:
+            labels[label] = {}
+        label_data = labels[label]
+        if cur_frame not in label_data:
+            label_frame_data = {}
+            label_data[cur_frame] = label_frame_data
+        label_frame_data = label_data[cur_frame]
+        if probability:
+            label_frame_data['probability'] = probability
 
 my_expert = PlacesExpert()
 expert_app = ExpertApp(expert=my_expert)
