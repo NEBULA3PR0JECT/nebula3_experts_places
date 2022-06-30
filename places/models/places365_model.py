@@ -112,15 +112,21 @@ class Places365Model(PlacesModel):
 
     def load_model(self):
         # this model has a last conv feature map as 14x14
-
-        model_file = self.config.get_model_file() # 'wideresnet18_places365.pth.tar'
-        # model_file = 'resnet50_places365.pth.tar'
-        if not os.access(model_file, os.W_OK):
-            os.system('wget http://places2.csail.mit.edu/models_places365/' + model_file)
+        if not os.access('wideresnet.py', os.W_OK):
             os.system('wget https://raw.githubusercontent.com/csailvision/places365/master/wideresnet.py')
 
         import wideresnet
-        model = wideresnet.resnet18(num_classes=365)
+        # model_file = 'resnet50_places365.pth.tar'
+        model_file = '%s_places365.pth.tar' % self.config.get_places_model_name()
+        model_func = getattr(wideresnet, self.config.get_places_model_name())
+        if not model_func:
+            print(f"failed to load model file or function for model: {self.config.get_places_model_name()}")
+            return None
+
+        if not os.access(model_file, os.W_OK):
+            os.system('wget http://places2.csail.mit.edu/models_places365/' + model_file)
+        # model = wideresnet.resnet18(num_classes=365)
+        model = model_func(num_classes=365)
         checkpoint = torch.load(model_file, map_location=lambda storage, loc: storage)
         state_dict = {str.replace(k,'module.',''): v for k,v in checkpoint['state_dict'].items()}
         model.load_state_dict(state_dict)
@@ -170,10 +176,11 @@ class Places365Model(PlacesModel):
             # print('{:.3f} -> {}'.format(probs[i], self.classes[idx[i]]))
         frame_info['cat'] = cats
 
-        # attributes
-        responses_attribute = self.W_attribute.dot(self.features_blobs[1])
-        idx_a = np.argsort(responses_attribute)
-        frame_info['attr'] = [self.labels_attribute[idx_a[i]] for i in range(-1,-10,-1)]
+        # attributes - only for resnet18
+        if self.config.get_places_model_name() == 'resnet18':
+            responses_attribute = self.W_attribute.dot(self.features_blobs[1])
+            idx_a = np.argsort(responses_attribute)
+            frame_info['attr'] = [self.labels_attribute[idx_a[i]] for i in range(-1,-10,-1)]
         # print('--SCENE ATTRIBUTES:')
         # print(', '.join([self.labels_attribute[idx_a[i]] for i in range(-1,-10,-1)]))
         return frame_info

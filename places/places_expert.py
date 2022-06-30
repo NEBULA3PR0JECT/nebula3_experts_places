@@ -32,7 +32,7 @@ class PlacesExpert(BaseExpert):
         self.set_active()
 
     def load_model(self):
-        model = create_places_model(self.config.get_places_model_name())
+        model = create_places_model(self.config.get_places_expert())
         return model
 
     def get_name(self):
@@ -129,9 +129,10 @@ class PlacesExpert(BaseExpert):
             for category in categories:
                 for key, value in category.items():
                     self.add_frame_to_label(labels, value, str(cur_frame), key)
-            attributes = first_pair[1]['attr']
-            for attribute in attributes:
-                self.add_frame_to_label(labels, attribute, str(cur_frame))
+            if 'attr' in first_pair[1]:
+                attributes = first_pair[1]['attr']
+                for attribute in attributes:
+                    self.add_frame_to_label(labels, attribute, str(cur_frame))
         for label_key, label_value in labels.items():
             tr = TokenRecord(params.movie_id,
                     params.scene_element, params.scene_element, self.get_name(),

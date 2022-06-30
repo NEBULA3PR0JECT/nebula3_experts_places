@@ -6,9 +6,9 @@ POST http://localhost:8000/predict
 content-type: application/json
 
 {
-    "movie_id": "Movies/308421",
+    "movie_id": "Movies/308641",
     "local": false,
-    "scene_element": 1,
+    "scene_element": 0,
     "extra_params": {
         "min_prob": 0.5
     }

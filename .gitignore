@@ -75,6 +75,7 @@ docs/_build/
 target/
 
 *.tar
+*.pth
 
 # Jupyter Notebook
 .ipynb_checkpoints
